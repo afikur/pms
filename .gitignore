@@ -1,5 +1,6 @@
 # Idea
 .idea
+*.orig
 
 # Logs
 logs

@@ -30,31 +30,31 @@ router.post('/', async (req, res) => {
     }
 });
 
-// router.post('/:id', async (req, res) => {
-//     try {
-//         const user = await User.findById(req.params.id);
-//         if(!user) {
-//             res.status(404).send('requested user not found');
-//         }
-//         if(user.scope === role.doctor) {
-//             const doctor = await createDoctor(req.body);
-//             if(!doctor) {
-//                 return res.status(400).send(error.details[0].message);
-//             }
-//             res.send(doctor);
-//         }
-//
-//         if(user.scope === role.patient) {
-//             const patient = await createPatient(req.body);
-//             if(!patient) {
-//                 return res.status(400).send(error.details[0].message);
-//             }
-//             res.send(patient);
-//         }
-//     } catch (e) {
-//         res.status(500).send('Internal server error');
-//     }
-// });
+router.post('/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if(!user) {
+            res.status(404).send('requested user not found');
+        }
+        if(user.scope === role.doctor) {
+            const doctor = await createDoctor(req.body);
+            if(!doctor) {
+                return res.status(400).send(error.details[0].message);
+            }
+            res.send(doctor);
+        }
+
+        if(user.scope === role.patient) {
+            const patient = await createPatient(req.body);
+            if(!patient) {
+                return res.status(400).send(error.details[0].message);
+            }
+            res.send(patient);
+        }
+    } catch (e) {
+        res.status(500).send('Internal server error');
+    }
+});
 
 router.get('/:id', async (req, res) => {
     try {
