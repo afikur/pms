@@ -24,7 +24,6 @@ paths:
         - Doctors
       summary: Get all doctors in system
       produces:
-        - application/xml
         - application/json
       responses:
         '200':
@@ -114,7 +113,6 @@ paths:
         - Patients
       summary: Get all patients in system
       produces:
-        - application/xml
         - application/json
       responses:
         '200':
