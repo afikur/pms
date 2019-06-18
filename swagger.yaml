@@ -51,7 +51,7 @@ paths:
     get:
       tags:
         - Doctors
-      summary: Delete a doctor
+      summary: Get a doctor
       produces:
         - application/xml
         - application/json
@@ -274,7 +274,63 @@ paths:
           schema:
             $ref: '#/definitions/User'
 
-
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: get a user
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id to find the user
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: 'Doctor with the id not found'
+    put:
+      tags:
+        - Users
+      description: Update a user in system
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          type: string
+        - in: body
+          name: User
+          description: User that we want to update
+          schema:
+            $ref: '#/definitions/User'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New Patient is created
+        '400':
+          description: Bad request
+        '404':
+          description: Patient with the id not found
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
   
 definitions:
   Doctor:
