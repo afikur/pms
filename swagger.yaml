@@ -49,6 +49,24 @@ paths:
           schema:
             $ref: '#/definitions/Doctor'
   '/doctors/{id}':
+    get:
+      tags:
+        - Doctors
+      summary: Delete a doctor
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id to find the doctor
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: 'Doctor with the id not found'
     put:
       tags:
         - Doctors
