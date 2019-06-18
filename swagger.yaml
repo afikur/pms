@@ -48,7 +48,7 @@ paths:
           description: New Doctor is created
           schema:
             $ref: '#/definitions/Doctor'
-  '/doctors/{id}':
+  /doctors/{id}:
     get:
       tags:
         - Doctors
@@ -107,6 +107,97 @@ paths:
       responses:
         '200':
           description: OK
+  
+  /patients:
+    get:
+      tags:
+        - Patients
+      summary: Get all patients in system
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Patient'
+    post:
+      tags:
+        - Patients
+      description: Create new patient in system
+      parameters:
+        - name: Patients
+          in: body
+          description: Patient that we want to create
+          schema:
+            $ref: '#/definitions/Patient'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New Patient is created
+          schema:
+            $ref: '#/definitions/Patient'
+  /patients/{id}:
+    get:
+      tags:
+        - Patients
+      summary: Delete a Patient
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id to find the patient
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: 'Patient with the id not found'
+    put:
+      tags:
+        - Patients
+      description: Update a patient in system
+      parameters:
+        - name: id
+          in: path
+          description: Patient id to update
+          required: true
+          type: string
+        - in: body
+          name: Patient
+          description: Patient that we want to update
+          schema:
+            $ref: '#/definitions/Patient'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New Patient is created
+        '400':
+          description: Bad request
+        '404':
+          description: Patient with the id not found
+    delete:
+      tags:
+        - Patients
+      summary: Delete a Patient
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Patient id to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+  
 definitions:
   Doctor:
     required:
@@ -123,3 +214,20 @@ definitions:
         type: number
       phone:
         type: string
+  
+  Patient:
+    required:
+      - name
+      - age
+      - phone
+      - address
+    properties:
+      name:
+        type: string
+      address:
+        type: string
+      age:
+        type: number
+      phone:
+        type: string
+      
