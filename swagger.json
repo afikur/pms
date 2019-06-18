@@ -1,0 +1,165 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Patient Management System",
+    "description": "",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "PMS",
+      "description": "API for patient management system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/doctors": {
+      "get": {
+        "tags": [
+          "Doctors"
+        ],
+        "summary": "Get all doctors in system",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Doctors"
+        ],
+        "description": "Create new doctor in system",
+        "parameters": [
+          {
+            "name": "Doctor",
+            "in": "body",
+            "description": "Doctor that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Doctor is created",
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        }
+      }
+    },
+    "/doctors/{id}": {
+      "put": {
+        "tags": [
+          "Doctors"
+        ],
+        "description": "Update a doctor in system",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Doctor id to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "Doctor",
+            "description": "Doctor that we want to update",
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Doctor is created"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Doctor with the id not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Doctors"
+        ],
+        "summary": "Delete a doctor",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Doctor id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Doctor": {
+      "required": [
+        "name",
+        "address",
+        "age",
+        "phone"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
