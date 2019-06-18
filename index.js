@@ -6,6 +6,7 @@ const prescriptions = require("./routes/prescriptions");
 const YAML = require("yamljs");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = YAML.load("./swagger.yaml");
+const users = require('./routes/users');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/api/v1/patients", patients);
 app.use("/api/v1/doctors", doctors);
 app.use("/api/v1/prescriptions", prescriptions);
+app.use("/api/v1/users", users);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port = process.env.PORT || 3000;

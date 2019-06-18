@@ -1,4 +1,5 @@
 const express = require('express');
+const {createDoctor} = require('./../service/doctor.service');
 const router = express.Router();
 const {Doctor, validate} = require('../models/doctor');
 
@@ -8,17 +9,11 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {error} = validate(req.body);
-    if(error) {
+    const doctor = await createDoctor(req.body);
+    if(!doctor) {
         return res.status(400).send(error.details[0].message);
     }
-
-    const {name, age, address, phone } = req.body;
-
-    const doctor = new Doctor({ name, age, address, phone });
-
-    const createdDoctor = await doctor.save();
-    res.send(createdDoctor);
+    res.send(doctor);
 });
 
 router.put('/:id', async (req, res) => {
