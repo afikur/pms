@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 
 const Doctor = mongoose.model('Doctor', new mongoose.Schema({
@@ -21,6 +21,14 @@ const Doctor = mongoose.model('Doctor', new mongoose.Schema({
         required: true,
         minLength: 11,
         maxLength: 11
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now()
     }
 }));
 
@@ -29,7 +37,9 @@ function validateDoctor(patient) {
         name: Joi.string().min(3).max(50).required(),
         address: Joi.string().required(),
         age: Joi.number().required(),
-        phone: Joi.string().min(11).max(11).required()
+        phone: Joi.string().min(11).max(11).required(),
+        createdAt: Joi.date(),
+        updatedAt: Joi.date(),
     };
 
     return Joi.validate(patient, schema);
