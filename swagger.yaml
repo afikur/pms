@@ -244,6 +244,37 @@ paths:
           description: OK
         '404':
           description: 'Patient/Doctor with the id not found'
+  /users:
+    get:
+      tags:
+      - Users
+      summary: Get all users in system
+      produces:
+      - application/json
+      responses:
+        '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/User'
+    post:
+      tags:
+      - Users
+      description: Create new user in system
+      parameters:
+      - name: Users
+        in: body
+        description: User that we want to create
+        schema:
+          $ref: '#/definitions/User'
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: New User is created
+          schema:
+            $ref: '#/definitions/User'
+
+
   
 definitions:
   Doctor:
@@ -288,5 +319,17 @@ definitions:
         type: array
         items:
           type: string
-
-    
+  User:
+    properties:
+      required:
+        - email
+        - password
+        - scope
+      email:
+        type: string
+      password:
+        type: string
+      scope:
+        type: array
+        items:
+          type: string

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {Patient, validate} = require('../models/patient');
+const {createPatient} = require('./../service/patient.service');
 
 router.get('/', async (req, res) => {
     const patients = await Patient.find();
@@ -8,17 +9,15 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {error} = validate(req.body);
-    if(error) {
-        return res.status(400).send(error.details[0].message);
+    try {
+        const patient = await createPatient(req.body);
+        if(!patient) {
+            res.status(400).send(error.details[0].message)
+        }
+        res.send(patient);
+    } catch (e) {
+        res.status(500).send('Internal server error');
     }
-
-    const {name, age, address, phone } = req.body;
-
-    const patient = new Patient({ name, age, address, phone });
-
-    const createdPatient = await patient.save();
-    res.send(createdPatient);
 });
 
 router.put('/:id', async (req, res) => {
@@ -56,6 +55,5 @@ router.get('/:id', async (req, res) => {
 
     res.send(patient);
 });
-
 
 module.exports = router;
