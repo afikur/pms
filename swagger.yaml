@@ -140,9 +140,8 @@ paths:
     get:
       tags:
         - Patients
-      summary: Delete a Patient
+      summary: Get a Patient
       produces:
-        - application/xml
         - application/json
       parameters:
         - name: id
@@ -195,6 +194,56 @@ paths:
       responses:
         '200':
           description: OK
+  /prescriptions/{doctorId}/{patientId}:
+    get:
+      tags:
+        - Prescriptions
+      summary: get all prescriptions
+      produces:
+        - application/json
+      parameters:
+        - name: doctorId
+          in: path
+          description: id to find the doctor
+          required: true
+          type: string
+        - name: patientId
+          in: path
+          description: id to find the patient
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: 'Patient/Doctor with the id not found'
+    post:
+      tags:
+        - Prescriptions
+      summary: create a prescriptions
+      produces:
+        - application/json
+      parameters:
+        - name: doctorId
+          in: path
+          description: id to find the doctor
+          required: true
+          type: string
+        - name: patientId
+          in: path
+          description: id to find the patient
+          required: true
+          type: string
+        - name: Prescription
+          in: body
+          description: prescription body
+          schema:
+            $ref: '#/definitions/Prescription'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: 'Patient/Doctor with the id not found'
   
 definitions:
   Doctor:
@@ -229,3 +278,15 @@ definitions:
       phone:
         type: string
       
+  Prescription:
+    properties:
+      disease:
+        type: array
+        items:
+          type: string
+      medicine:
+        type: array
+        items:
+          type: string
+
+    
