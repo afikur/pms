@@ -28,7 +28,7 @@ async function findByIdAndUpdate(id, payload) {
 
     const {name, email, phone, age, gender, password, scope} = payload;
 
-    return  await User.findOneAndUpdate(id,
+    return  await User.findByIdAndUpdate(id,
         {name, email, phone, age, gender, password, scope},
         {new: true});
 }

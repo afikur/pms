@@ -1,0 +1,73 @@
+const express = require('express');
+const doctorService = require('./doctor.service');
+const router = express.Router();
+const {validate} = require('./doctor.model');
+
+router.get('/', async (req, res) => {
+    try {
+        const doctors = await doctorService.getAllDoctors();
+        res.send(doctors);
+    } catch (e) {
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.post('/', async (req, res) => {
+    try {
+        const doctor = await doctorService.createDoctor(req.body);
+        if (!doctor) {
+            return res.status(400).send(error.details[0].message);
+        }
+        res.send(doctor);
+    } catch (e) {
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    try {
+        const {error} = validate(req.body);
+
+        if (error) {
+            return res.status(400).send(error.details[0].message);
+        }
+
+        const doctor = await doctorService.updateDoctor(req.params.id, req.body);
+
+        if (!doctor) {
+            return res.status(404).send('The doctor with the given ID was not found.');
+        }
+
+        res.status(201).send(doctor);
+    } catch (e) {
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const doctor = await doctorService.deleteDoctor(req.params.id);
+
+        if (!doctor) {
+            return res.status(404).send('The doctor with the given ID was not found.');
+        }
+
+        res.send(doctor);
+    } catch (e) {
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const doctor = await doctorService.getDoctorById(req.params.id);
+        if (!doctor) {
+            return res.status(404).send('The doctor with the given ID was not found.');
+        }
+        res.send(doctor);
+    } catch (e) {
+        res.status(500).send('Internal server error');
+    }
+});
+
+module.exports = router;

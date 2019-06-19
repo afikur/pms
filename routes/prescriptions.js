@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Doctor} = require('./../models/doctor');
+const {Doctor} = require('../src/doctor/doctor.model');
 const {Patient} = require('./../models/patient');
 const {Prescription, validate} = require('./../models/prescription');
 

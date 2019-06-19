@@ -91,7 +91,7 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        '201':
           description: New Doctor is created
         '400':
           description: Bad request
