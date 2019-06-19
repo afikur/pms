@@ -352,11 +352,14 @@ paths:
 definitions:
   Doctor:
     required:
+      - _id
       - name
       - address
       - age
       - phone
     properties:
+      _id:
+        type: string
       name:
         type: string
       address:
@@ -368,11 +371,14 @@ definitions:
   
   Patient:
     required:
+      - _id
       - name
       - age
       - phone
       - address
     properties:
+      _id:
+        type: string
       name:
         type: string
       address:

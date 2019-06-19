@@ -9,8 +9,8 @@ async function createPatient(payload) {
     if(error) {
         return;
     }
-    const {name, age, address, phone } = payload;
+    const {_id, name, age, address, phone } = payload;
 
-    const patient = new Patient({ name, age, address, phone });
+    const patient = new Patient({ _id, name, age, address, phone });
     return await patient.save();
 }

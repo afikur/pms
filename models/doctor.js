@@ -2,6 +2,10 @@ const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 
 const Doctor = mongoose.model('Doctor', new mongoose.Schema({
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     name: {
         type: String,
         required: true,
@@ -34,6 +38,7 @@ const Doctor = mongoose.model('Doctor', new mongoose.Schema({
 
 function validateDoctor(patient) {
     const schema = {
+        _id: Joi.string().required(),
         name: Joi.string().min(3).max(50).required(),
         address: Joi.string().required(),
         age: Joi.number().required(),

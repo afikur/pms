@@ -10,8 +10,8 @@ async function createDoctor(payload) {
         return;
     }
 
-    const {name, age, address, phone } = payload;
+    const {_id, name, age, address, phone } = payload;
 
-    const doctor = new Doctor({ name, age, address, phone });
+    const doctor = new Doctor({ _id, name, age, address, phone });
     return await doctor.save();
 }
