@@ -331,7 +331,24 @@ paths:
       responses:
         '200':
           description: OK
-  
+  /users/search:
+    get:
+      tags:
+        - Users
+      summary: get a user
+      produces:
+        - application/json
+      parameters:
+        - name: email
+          in: query
+          description: id to find the user
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: 'Doctor with the id not found'
 definitions:
   Doctor:
     required:

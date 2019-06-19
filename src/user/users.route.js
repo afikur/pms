@@ -16,9 +16,21 @@ router.post('/', async (req, res) => {
     try {
         const {err} = validate(req.body);
         if(err) {
-            res.status(400).send(error.details[0].message);
+            return res.status(400).send(error.details[0].message);
         }
         const user = await userService.createUser(req.body);
+        res.send(user);
+    } catch (e) {
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.get('/search', async (req, res) => {
+    try {
+        const user = await userService.findUserByEmail(encodeURI(req.query.email));
+        if(!user) {
+            return res.status(404).send('requested user not found');
+        }
         res.send(user);
     } catch (e) {
         res.status(500).send('Internal server error');
@@ -29,13 +41,14 @@ router.get('/:id', async (req, res) => {
     try {
         const user = await userService.findUserById(req.params.id);
         if(!user) {
-            res.status(404).send('requested user not found');
+            return res.status(404).send('requested user not found');
         }
         res.send(user);
     } catch (e) {
         res.status(500).send('Internal server error');
     }
 });
+
 
 router.put('/:id', async (req, res) => {
     try {
@@ -46,7 +59,7 @@ router.put('/:id', async (req, res) => {
 
         const user = await userService.findByIdAndUpdate(req.params.id, req.body);
         if(!user) {
-            res.status(404).send('The user with the given ID was not found.')
+            return res.status(404).send('The user with the given ID was not found.')
         }
         res.send(user);
     }

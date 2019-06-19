@@ -5,7 +5,8 @@ module.exports = {
     createUser,
     findUserById,
     findByIdAndUpdate,
-    findByIdAndRemove
+    findByIdAndRemove,
+    findUserByEmail
 };
 
 async function getAllUsers() {
@@ -34,4 +35,8 @@ async function findByIdAndUpdate(id, payload) {
 
 async function findByIdAndRemove(id) {
     return await User.findByIdAndRemove(id);
+}
+
+async function findUserByEmail(email) {
+    return await User.findOne({email});
 }
