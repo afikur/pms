@@ -1,4 +1,4 @@
-const {Patient, validate} = require('./../models/patient');
+const {Patient, validate} = require('./patient.model');
 
 module.exports = {
     createPatient

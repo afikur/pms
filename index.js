@@ -1,12 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const patients = require("./routes/patients");
-const doctors = require("./src/doctor/doctors.route");
-const prescriptions = require("./routes/prescriptions");
-const YAML = require("yamljs");
 const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const patients = require("./src/patient/patients.routes");
+const doctors = require("./src/doctor/doctors.routes");
+const prescriptions = require("./src/prescription/prescriptions.routes");
 const swaggerDocument = YAML.load("./swagger.yaml");
-const users = require('./src/user/users.route');
+const users = require('./src/user/users.routes');
 
 const app = express();
 

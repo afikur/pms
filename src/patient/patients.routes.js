@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {Patient, validate} = require('../models/patient');
-const {createPatient} = require('./../service/patient.service');
+const {Patient, validate} = require('./patient.model');
+const {createPatient} = require('./patient.service');
 
 router.get('/', async (req, res) => {
     const patients = await Patient.find();

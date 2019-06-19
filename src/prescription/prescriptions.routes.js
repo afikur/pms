@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {Doctor} = require('../src/doctor/doctor.model');
-const {Patient} = require('./../models/patient');
-const {Prescription, validate} = require('./../models/prescription');
+const {Doctor} = require('../doctor/doctor.model');
+const {Patient} = require('../patient/patient.model');
+const {Prescription, validate} = require('./prescription.model');
 
 router.get('/:doctorId/:patientId', async (req, res) => {
     const {doctorId, patientId} = req.params;
