@@ -14,9 +14,9 @@ async function getAllUsers() {
 }
 
 async function createUser(payload) {
-    const {email, password, scope} = payload;
+    const {name, email, phone, age, gender, password, scope} = payload;
 
-    let user = new User({email, password, scope});
+    let user = new User({name, email, phone, age, gender, password, scope});
     return await user.save();
 }
 
@@ -26,10 +26,10 @@ async function findUserById(id) {
 
 async function findByIdAndUpdate(id, payload) {
 
-    const {email, password, scope} = payload;
+    const {name, email, phone, age, gender, password, scope} = payload;
 
-    return  await User.findByIdAndUpdate(id,
-        {email, password, scope},
+    return  await User.findOneAndUpdate(id,
+        {name, email, phone, age, gender, password, scope},
         {new: true});
 }
 

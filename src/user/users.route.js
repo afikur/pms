@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
             return res.status(400).send(error.details[0].message);
         }
         const user = await userService.createUser(req.body);
-        res.send(user);
+        res.status(201).send(user);
     } catch (e) {
         res.status(500).send('Internal server error');
     }
@@ -61,7 +61,7 @@ router.put('/:id', async (req, res) => {
         if(!user) {
             return res.status(404).send('The user with the given ID was not found.')
         }
-        res.send(user);
+        res.status(201).send(user);
     }
     catch (e) {
         console.log(e);
@@ -73,7 +73,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const user = await userService.findByIdAndRemove(req.params.id);
         if(!user) {
-            res.status(404).send('The user with the given ID was not found.');;
+            return res.status(404).send('The user with the given ID was not found.');;
         }
         res.send(user);
     } catch (e) {

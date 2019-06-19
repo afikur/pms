@@ -52,5 +52,4 @@ router.get('/:id', async (req, res) => {
     res.send(doctor);
 });
 
-
 module.exports = router;

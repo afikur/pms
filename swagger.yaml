@@ -30,6 +30,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Doctor'
+        '500':
+          description: Internal Server Error
     post:
       tags:
         - Doctors
@@ -47,6 +49,9 @@ paths:
           description: New Doctor is created
           schema:
             $ref: '#/definitions/Doctor'
+        '500':
+          description: Internal Server Error
+
   /doctors/{id}:
     get:
       tags:
@@ -66,6 +71,8 @@ paths:
           description: OK
         '404':
           description: 'Doctor with the id not found'
+        '500':
+          description: Internal Server Error
     put:
       tags:
         - Doctors
@@ -90,6 +97,8 @@ paths:
           description: Bad request
         '404':
           description: Doctor with the id not found
+        '500':
+          description: Internal Server Error
     delete:
       tags:
         - Doctors
@@ -106,7 +115,11 @@ paths:
       responses:
         '200':
           description: OK
-  
+        '404':
+          description: Doctor with the id not found
+        '500':
+          description: Internal Server Error
+
   /patients:
     get:
       tags:
@@ -119,6 +132,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Patient'
+        '500':
+          description: Internal Server Error
     post:
       tags:
         - Patients
@@ -132,10 +147,12 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        '201':
           description: New Patient is created
           schema:
             $ref: '#/definitions/Patient'
+        '500':
+          description: Internal Server Error
   /patients/{id}:
     get:
       tags:
@@ -153,7 +170,9 @@ paths:
         '200':
           description: OK
         '404':
-          description: 'Patient with the id not found'
+          description: Patient with the id not found
+        '500':
+          description: Internal Server Error
     put:
       tags:
         - Patients
@@ -194,6 +213,24 @@ paths:
       responses:
         '200':
           description: OK
+  /prescriptions:
+    post:
+      tags:
+        - Prescriptions
+      summary: create a prescriptions
+      produces:
+        - application/json
+      parameters:
+        - name: Patients
+          in: body
+          description: Patient that we want to create
+          schema:
+            $ref: '#/definitions/Prescription'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: 'Patient/Doctor with the id not found'
   /prescriptions/{doctorId}/{patientId}:
     get:
       tags:
@@ -217,57 +254,30 @@ paths:
           description: OK
         '404':
           description: 'Patient/Doctor with the id not found'
-    post:
-      tags:
-        - Prescriptions
-      summary: create a prescriptions
-      produces:
-        - application/json
-      parameters:
-        - name: doctorId
-          in: path
-          description: id to find the doctor
-          required: true
-          type: string
-        - name: patientId
-          in: path
-          description: id to find the patient
-          required: true
-          type: string
-        - name: Prescription
-          in: body
-          description: prescription body
-          schema:
-            $ref: '#/definitions/Prescription'
-      responses:
-        '200':
-          description: OK
-        '404':
-          description: 'Patient/Doctor with the id not found'
   /users:
     get:
       tags:
-      - Users
+        - Users
       summary: Get all users in system
       produces:
-      - application/json
+        - application/json
       responses:
         '200':
-        description: OK
-        schema:
-          $ref: '#/definitions/User'
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
     post:
       tags:
-      - Users
+        - Users
       description: Create new user in system
       parameters:
-      - name: Users
-        in: body
-        description: User that we want to create
-        schema:
-          $ref: '#/definitions/User'
+        - name: Users
+          in: body
+          description: User that we want to create
+          schema:
+            $ref: '#/definitions/User'
       produces:
-      - application/json
+        - application/json
       responses:
         '200':
           description: New User is created
@@ -353,43 +363,32 @@ definitions:
   Doctor:
     required:
       - _id
-      - name
-      - address
-      - age
-      - phone
+      - license
+      - degrees
+
     properties:
       _id:
         type: string
-      name:
+      license:
         type: string
-      address:
-        type: string
-      age:
-        type: number
-      phone:
-        type: string
-  
+      degrees:
+        type: array
+        items:
+          type: string
+
   Patient:
     required:
       - _id
-      - name
-      - age
-      - phone
-      - address
     properties:
       _id:
         type: string
-      name:
-        type: string
-      address:
-        type: string
-      age:
-        type: number
-      phone:
-        type: string
-      
+
   Prescription:
     properties:
+      doctor:
+        type: string
+      patient:
+        type: string
       disease:
         type: array
         items:
@@ -399,12 +398,21 @@ definitions:
         items:
           type: string
   User:
+    required:
+      - name
+      - password
+      - gender
+      - scope
     properties:
-      required:
-        - email
-        - password
-        - scope
+      name:
+        type: string
       email:
+        type: string
+      phone:
+        type: string
+      age:
+        type: number
+      gender:
         type: string
       password:
         type: string
