@@ -6,7 +6,7 @@ const prescriptions = require("./routes/prescriptions");
 const YAML = require("yamljs");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = YAML.load("./swagger.yaml");
-const users = require('./routes/users');
+const users = require('./src/user/users.route');
 
 const app = express();
 

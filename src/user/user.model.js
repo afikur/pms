@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
-const role = require('./../helper/role');
+const role = require('../../helper/role');
 
 const User = mongoose.model('User', new mongoose.Schema({
     email: {
