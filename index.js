@@ -7,7 +7,7 @@ const doctors = require("./src/doctor/doctors.routes");
 const prescriptions = require("./src/prescription/prescriptions.routes");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const users = require('./src/user/users.routes');
-
+const auth = require('./src/auth/auth.routes');
 const app = express();
 
 mongoose
@@ -20,6 +20,7 @@ app.use("/api/v1/patients", patients);
 app.use("/api/v1/doctors", doctors);
 app.use("/api/v1/prescriptions", prescriptions);
 app.use("/api/v1/users", users);
+app.use("/api/v1/auth", auth);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port = process.env.PORT || 3000;

@@ -359,6 +359,29 @@ paths:
           description: OK
         '404':
           description: 'Doctor with the id not found'
+  /auth:
+    post:
+      tags:
+        - Auth
+      description: Get jwt token
+      parameters:
+        - name: User
+          in: body
+          description: User that is registered already
+          schema:
+            $ref: '#/definitions/Auth'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New User is created
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid Email or password
+          schema:
+            $ref: '#/definitions/User'
+
 definitions:
   Doctor:
     required:
@@ -420,3 +443,13 @@ definitions:
         type: array
         items:
           type: string
+  Auth:
+    required:
+      - password
+    properties:
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
