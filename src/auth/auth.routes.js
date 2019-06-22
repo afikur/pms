@@ -1,4 +1,6 @@
 const express = require('express');
+const config = require('config');
+const jwt = require('jsonwebtoken');
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -29,7 +31,8 @@ router.post('/', async (req, res) => {
         if(!validPassword) {
             return res.status(400).send('Invalid email or password');
         }
-        res.send(true);
+        const token = jwt.sign({_id: user._id}, config.get('jwtPrivateKey'));
+        res.send(token);
 
     } catch (e) {
         res.status(500).send('Internal server error');

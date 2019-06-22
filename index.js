@@ -1,4 +1,5 @@
 const express = require("express");
+const config = require('config');
 const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
@@ -9,6 +10,11 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 const users = require('./src/user/users.routes');
 const auth = require('./src/auth/auth.routes');
 const app = express();
+
+if(!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: jwt private key is not defined');
+    process.exit(1);
+}
 
 mongoose
   .connect("mongodb://localhost/pms", { useNewUrlParser: true })

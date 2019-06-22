@@ -1,4 +1,6 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const router = express.Router();
 const {User, validate} = require('./user.model');
 const userService = require('./users.service');
@@ -23,10 +25,11 @@ router.post('/', async (req, res) => {
         if(user) {
             res.status(400).send('User already registered.');
         }
-
         user = await userService.createUser(req.body);
-        res.status(201).send(user);
+        const token = jwt.sign({_id: user._id}, config.get('jwtPrivateKey'));
+        res.header('x-auth-token', token).status(201).send(user);
     } catch (e) {
+        console.log(e);
         res.status(500).send('Internal server error');
     }
 });
