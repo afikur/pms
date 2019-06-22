@@ -10,7 +10,7 @@ module.exports = {
 };
 
 async function getAllUsers() {
-    return await User.find();
+    return await User.find().select('-password');
 }
 
 async function createUser(payload) {
@@ -30,13 +30,13 @@ async function findByIdAndUpdate(id, payload) {
 
     return  await User.findByIdAndUpdate(id,
         {name, email, phone, age, gender, password, scope},
-        {new: true});
+        {new: true}).select('-password');
 }
 
 async function findByIdAndRemove(id) {
-    return await User.findByIdAndRemove(id);
+    return await User.findByIdAndRemove(id).select('-password');
 }
 
 async function findUserByEmail(email) {
-    return await User.findOne({email});
+    return await User.findOne({email}).select('-password');
 }
