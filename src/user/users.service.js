@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const {User} = require('./user.model');
 
 module.exports = {
@@ -15,8 +16,9 @@ async function getAllUsers() {
 
 async function createUser(payload) {
     const {name, email, phone, age, gender, password, scope} = payload;
-
     let user = new User({name, email, phone, age, gender, password, scope});
+    const salt = await bcrypt.genSalt(11);
+    user.password = await bcrypt.hash(user.password, salt);
     return await user.save();
 }
 

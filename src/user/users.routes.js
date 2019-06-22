@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {validate} = require('./user.model');
+const {User, validate} = require('./user.model');
 const userService = require('./users.service');
 
 router.get('/', async (req, res) => {
@@ -18,7 +18,13 @@ router.post('/', async (req, res) => {
         if(err) {
             return res.status(400).send(error.details[0].message);
         }
-        const user = await userService.createUser(req.body);
+        let user = await User.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}]});
+
+        if(user) {
+            res.status(400).send('User already registered.');
+        }
+
+        user = await userService.createUser(req.body);
         res.status(201).send(user);
     } catch (e) {
         res.status(500).send('Internal server error');
