@@ -40,11 +40,11 @@ const User = mongoose.model('User', new mongoose.Schema({
         type: String
     },
 
-    scope: [{
-        type: String,
-        enum: [role.doctor, role.patient],
-        default: role.patient
-    }],
+    scope: {
+        type: Array,
+
+        default: [role.patient]
+    },
 
     createdAt: {
         type: Date,

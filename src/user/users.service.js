@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const {User} = require('./user.model');
+const R = require('ramda');
 
 module.exports = {
     getAllUsers,
@@ -19,7 +20,8 @@ async function createUser(payload) {
     let user = new User({name, email, phone, age, gender, password, scope});
     const salt = await bcrypt.genSalt(11);
     user.password = await bcrypt.hash(user.password, salt);
-    return await user.save();
+    user = await user.save();
+    return R.pick(['_id','name', 'email', 'phone', 'age', 'gender', 'scope'], user);
 }
 
 async function findUserById(id) {
