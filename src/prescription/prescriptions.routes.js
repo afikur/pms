@@ -17,27 +17,22 @@ router.post('/', async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
 
-    try {
-        const doctor = await Doctor.findById(doctorId);
-        const patient = await Patient.findById(patientId);
-        if(!doctor) {
-            return res.status(400).send('Invalid doctor ID provided');
-        } if(!patient) {
-            return res.status(400).send('Invalid patient ID provided');
-        } else {
-            const prescription = new Prescription({
-                doctor: doctorId,
-                patient: patientId,
-                disease: req.body.disease,
-                medicine: req.body.medicine
-            });
+    const doctor = await Doctor.findById(doctorId);
+    const patient = await Patient.findById(patientId);
+    if(!doctor) {
+        return res.status(400).send('Invalid doctor ID provided');
+    } if(!patient) {
+        return res.status(400).send('Invalid patient ID provided');
+    } else {
+        const prescription = new Prescription({
+            doctor: doctorId,
+            patient: patientId,
+            disease: req.body.disease,
+            medicine: req.body.medicine
+        });
 
-            const createdPrescription = await prescription.save();
-            res.send(createdPrescription);
-        }
-    }
-    catch (e) {
-        console.log(e);
+        const createdPrescription = await prescription.save();
+        res.send(createdPrescription);
     }
 });
 

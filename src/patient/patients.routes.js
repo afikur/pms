@@ -9,15 +9,12 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    try {
-        const patient = await createPatient(req.body);
-        if(!patient) {
-            return res.status(400).send(error.details[0].message)
-        }
-        res.send(patient);
-    } catch (e) {
-        res.status(500).send('Internal server error');
+
+    const patient = await createPatient(req.body);
+    if(!patient) {
+        return res.status(400).send(error.details[0].message)
     }
+    res.send(patient);
 });
 
 router.put('/:id', async (req, res) => {
@@ -44,12 +41,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    let patient;
-    try {
-        patient = await Patient.findById(req.params.id);
-    } catch (e) {
-        console.log(`Invalid id provided...`, e);
-    }
+    const patient = await Patient.findById(req.params.id);
 
     if (!patient) return res.status(404).send('The patient with the given ID was not found.');
 

@@ -1,4 +1,5 @@
 const express = require("express");
+require('express-async-errors');
 const config = require('config');
 const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");

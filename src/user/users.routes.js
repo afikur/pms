@@ -6,61 +6,43 @@ const {User, validate} = require('./user.model');
 const userService = require('./users.service');
 
 router.get('/', async (req, res) => {
-    try {
-        const users = await userService.getAllUsers();
-        res.send(users);
-    } catch (e) {
-        res.status(500).send('Internal server error');
-    }
+    const users = await userService.getAllUsers();
+    res.send(users);
 });
 
 router.post('/', async (req, res) => {
-    try {
-        const {err} = validate(req.body);
-        if(err) {
-            return res.status(400).send(error.details[0].message);
-        }
-        let user = await User.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}]});
-
-        if(user) {
-            res.status(400).send('User already registered.');
-        }
-        user = await userService.createUser(req.body);
-        const token = jwt.sign({_id: user._id}, config.get('jwtPrivateKey'));
-        res.header('x-auth-token', token).status(201).send(user);
-    } catch (e) {
-        console.log(e);
-        res.status(500).send('Internal server error');
+    const {err} = validate(req.body);
+    if(err) {
+        return res.status(400).send(error.details[0].message);
     }
+    let user = await User.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}]});
+
+    if(user) {
+        res.status(400).send('User already registered.');
+    }
+    user = await userService.createUser(req.body);
+    const token = jwt.sign({_id: user._id}, config.get('jwtPrivateKey'));
+    res.header('x-auth-token', token).status(201).send(user);
 });
 
 router.get('/search', async (req, res) => {
-    try {
-        const user = await userService.findUserByEmail(encodeURI(req.query.email));
-        if(!user) {
-            return res.status(404).send('requested user not found');
-        }
-        res.send(user);
-    } catch (e) {
-        res.status(500).send('Internal server error');
+    const user = await userService.findUserByEmail(encodeURI(req.query.email));
+    if(!user) {
+        return res.status(404).send('requested user not found');
     }
+    res.send(user);
 });
 
 router.get('/:id', async (req, res) => {
-    try {
-        const user = await userService.findUserById(req.params.id);
-        if(!user) {
-            return res.status(404).send('requested user not found');
-        }
-        res.send(user);
-    } catch (e) {
-        res.status(500).send('Internal server error');
+    const user = await userService.findUserById(req.params.id);
+    if(!user) {
+        return res.status(404).send('requested user not found');
     }
+    res.send(user);
 });
 
 
 router.put('/:id', async (req, res) => {
-    try {
         const {error} = validate(req.body);
         if (error) {
             return res.status(400).send(error.details[0].message);;
@@ -71,23 +53,14 @@ router.put('/:id', async (req, res) => {
             return res.status(404).send('The user with the given ID was not found.')
         }
         res.status(201).send(user);
-    }
-    catch (e) {
-        console.log(e);
-        res.status(500).send('Internal server error');
-    }
 });
 
 router.delete('/:id', async (req, res) => {
-    try {
-        const user = await userService.findByIdAndRemove(req.params.id);
-        if(!user) {
-            return res.status(404).send('The user with the given ID was not found.');;
-        }
-        res.send(user);
-    } catch (e) {
-        res.status(500).send('Internal server error');
+    const user = await userService.findByIdAndRemove(req.params.id);
+    if(!user) {
+        return res.status(404).send('The user with the given ID was not found.');;
     }
+    res.send(user);
 });
 
 module.exports = router;
