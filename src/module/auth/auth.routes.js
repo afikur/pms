@@ -4,12 +4,7 @@ const jwt = require('jsonwebtoken');
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const {User} = require('./../user/user.model');
-
-router.get('/', async (req, res) => {
-    const users = await userService.getAllUsers();
-    res.send(users);
-});
+const {User} = require('../user/user.model');
 
 router.post('/', async (req, res) => {
     const {err} = validate(req.body);

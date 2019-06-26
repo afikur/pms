@@ -4,12 +4,12 @@ const config = require('config');
 const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
-const patients = require("./src/patient/patients.routes");
-const doctors = require("./src/doctor/doctors.routes");
-const prescriptions = require("./src/prescription/prescriptions.routes");
+const patients = require("./src/module/patient/patients.routes");
+const doctors = require("./src/module/doctor/doctors.routes");
+const prescriptions = require("./src/module/prescription/prescriptions.routes");
 const swaggerDocument = YAML.load("./swagger.yaml");
-const users = require('./src/user/users.routes');
-const auth = require('./src/auth/auth.routes');
+const users = require('./src/module/user/users.routes');
+const auth = require('./src/module/auth/auth.routes');
 const app = express();
 
 if(!config.get('jwtPrivateKey')) {
